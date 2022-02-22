@@ -32,12 +32,18 @@
   export default {
     name: 'Employment-Information',
     props: ['employmentInformationData'],
+    emit: ['upsert', 'refresh'],
     components: {
       Datepicker
     },
     data() {
       return{
-        editEmploymentInformationData: [],
+        editEmploymentInformationData: [{
+          name: String,
+          birthday: Date,
+          salary: Number,
+          address: String,
+        }],
       }
     },
     methods:{
@@ -51,15 +57,16 @@
         });
       },
       SaveItem(){
-        this.$parent.UpsertData(this.editEmploymentInformationData);
+        this.editEmploymentInformationData.forEach(x => x.salary = Number(x.salary));
+        this.$emit('upsert', JSON.stringify(this.editEmploymentInformationData));
       },
       RefreshItem(){
-        this.$parent.RefreshData(this.editEmploymentInformationData);
-      }
+        this.$emit('refresh');
+      },
     },
     watch: { 
       employmentInformationData: function(newVal) {
-          this.editEmploymentInformationData = newVal;
+          this.editEmploymentInformationData = JSON.parse(JSON.stringify(newVal));
       }
     }
   }
