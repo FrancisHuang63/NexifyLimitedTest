@@ -26,14 +26,9 @@ namespace NexifyLimitedAPITest.Controllers
         }
         
         [HttpPost]
-        public void Post([FromBody] IEnumerable<EmploymentInformation> request)
+        public async Task<bool> Post([FromBody] IEnumerable<EmploymentInformation> request)
         {
-            
-        }
-        
-        [HttpPut("{id}")]
-        public void Put(IEnumerable<EmploymentInformation> request)
-        {
+            return await _dateBaseService.UpsertDatasAsync(request);
         }
     }
 }

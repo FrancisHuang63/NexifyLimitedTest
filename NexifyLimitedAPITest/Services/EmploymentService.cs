@@ -11,6 +11,7 @@ namespace NexifyLimitedAPITest.Services
     public class EmploymentService : IDataBaseService<EmploymentInformation>
     {
         private readonly IDataBaseAccessService<EmploymentInformation> _dataBaseAccessService;
+
         public EmploymentService(IDataBaseAccessService<EmploymentInformation> dataBaseAccessService)
         {
             _dataBaseAccessService = dataBaseAccessService;
@@ -22,9 +23,11 @@ namespace NexifyLimitedAPITest.Services
             return await _dataBaseAccessService.QueryAllAsync(sql);
         }
 
-        public Task<bool> UpsertDatasAsync(IEnumerable<EmploymentInformation> datas)
+        public async Task<bool> UpsertDatasAsync(IEnumerable<EmploymentInformation> datas)
         {
-            throw new Exception();
+            var sql = "INSERT OR REPLACE INTO [EmploymentInformation](Id, Name, Birthday, Salary, Address) " +
+                      "VALUES (@ID, @Name, @Birthday, @Salary, @Address); ";
+            return await _dataBaseAccessService.ExcuteQueryAsync(sql, datas) > 0;
         }
     }
 }
