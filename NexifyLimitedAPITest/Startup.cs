@@ -3,7 +3,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using NexifyLimitedAPITest.Models;
+using NexifyLimitedAPITest.Services;
+using NexifyLimitedAPITest.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +28,8 @@ namespace NexifyLimitedAPITest
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.TryAddScoped<IDataBaseAccessService<EmploymentInformation>, DataBaseAccessService<EmploymentInformation>>();
+            services.TryAddScoped<IDataBaseService<EmploymentInformation>, EmploymentService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

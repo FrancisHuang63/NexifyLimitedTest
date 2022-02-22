@@ -7,6 +7,7 @@ namespace NexifyLimitedAPITest.Models
 {
     public class EmploymentInformation
     {
+        public int ID { get; set; }
         public string Name { get; set; }
         public DateTime Birthday { get; set; }
         public int Salary { get; set; }

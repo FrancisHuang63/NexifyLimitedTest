@@ -45,6 +45,7 @@
     methods:{
       AddNewItem(){
         this.editEmploymentInformationData.push({
+          id: this.editEmploymentInformationData.length + 1,
           name: '',
           birthday: '',
           salary: 0,

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NexifyLimitedAPITest.Models;
+using NexifyLimitedAPITest.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,17 @@ namespace NexifyLimitedAPITest.Controllers
     [ApiController]
     public class EmploymentController : ControllerBase
     {
-        [HttpGet]
-        public IEnumerable<EmploymentInformation> Get()
+
+        private readonly IDataBaseService<EmploymentInformation> _dateBaseService;
+        public EmploymentController(IDataBaseService<EmploymentInformation> dateBaseService)
         {
-            return new EmploymentInformation[] {};
+            _dateBaseService = dateBaseService;
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<EmploymentInformation>> Get()
+        {
+            return await _dateBaseService.GetAllAsync();
         }
         
         [HttpPost]
