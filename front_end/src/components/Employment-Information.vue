@@ -4,8 +4,8 @@
     <table class="table">
       <caption>
         <button @click="AddNewItem">Add</button>
-        <button>Save</button>
-        <button>Refresh</button>
+        <button @click="SaveItem">Save</button>
+        <button @click="RefreshItem">Refresh</button>
       </caption>
       <thead>
           <tr>
@@ -31,9 +31,7 @@
   import Datepicker from 'vuejs-datepicker';
   export default {
     name: 'Employment-Information',
-    props: {
-      employmentInformationData: []
-    },
+    props: ['employmentInformationData'],
     components: {
       Datepicker
     },
@@ -51,11 +49,18 @@
           salary: 0,
           address: '',
         });
+      },
+      SaveItem(){
+        this.$parent.UpsertData(this.editEmploymentInformationData);
+      },
+      RefreshItem(){
+        this.$parent.RefreshData(this.editEmploymentInformationData);
       }
     },
-    mounted (){
-      
-      this.editEmploymentInformationData = this.employmentInformationData;
+    watch: { 
+      employmentInformationData: function(newVal) {
+          this.editEmploymentInformationData = newVal;
+      }
     }
   }
 </script>

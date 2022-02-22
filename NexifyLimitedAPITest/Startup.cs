@@ -17,6 +17,7 @@ namespace NexifyLimitedAPITest
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -28,6 +29,18 @@ namespace NexifyLimitedAPITest
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("https://localhost:8085",
+                                                          "http://localhost/Nexify_F")
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod()
+                                      .AllowCredentials();
+                                  });
+            });
             services.TryAddScoped<IDataBaseAccessService<EmploymentInformation>, DataBaseAccessService<EmploymentInformation>>();
             services.TryAddScoped<IDataBaseService<EmploymentInformation>, EmploymentService>();
         }
@@ -49,6 +62,7 @@ namespace NexifyLimitedAPITest
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseAuthorization();
 

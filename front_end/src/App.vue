@@ -17,6 +17,38 @@ export default {
     return{
         EmploymentInformationData: [],
     }
+  },
+  methods:{
+    async UpsertData(requsetData){
+      const requestOptions = {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json", 
+          "Access-Control-Allow-Origin": '*', 
+        },
+        body: JSON.stringify(requsetData)
+      };
+      const response = await fetch("https://localhost:44390/api/Employment", requestOptions);
+      const data = await response.json();
+      if(data == true) 
+        alert('Save Success!!');
+    },
+    async RefreshData(){
+      const requestOptions = {
+        method: "GET",
+        headers: { 
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": '*',
+        },
+      };
+
+      const response = await fetch('https://localhost:44390/api/Employment', requestOptions);
+      const data = await response.json();
+      this.EmploymentInformationData = data;
+    },
+  },
+  mounted(){
+    this.RefreshData();
   }
 }
 </script>
